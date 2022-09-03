@@ -1,0 +1,79 @@
+import shader from './shader.square.webgpu.wgsl'
+import { initialiseGPU, createGPUBuffer } from '../../helpers/webgpu';
+const webGPUDrawSquare = async () => {
+    const gpu = await initialiseGPU();
+    const format = 'bgra8unorm';
+    const device = gpu.device;
+    const context = gpu.context;
+
+    const data:Float32Array = new Float32Array([
+        -0.5,-0.5, 0.0,0.0,1.0,
+        -0.5, 0.5, 0.0,1.0,0.0,
+        0.5, -0.5, 0.0,1.0,0.0,
+        -0.5, 0.5, 0.0,1.0,0.0,
+        0.5, -0.5, 0.0,1.0,0.0,
+        0.5,0.5, 0.0,0.0,1.0,
+    ]);
+
+    const dataBuffer = createGPUBuffer(device, data, GPUBufferUsage.VERTEX);
+
+    let pipeline = device.createRenderPipeline({
+        vertex:{
+            module: device.createShaderModule({
+                code:shader
+            }),
+            entryPoint: "vs_main",
+            buffers:[
+                {
+                    arrayStride:20,
+                    attributes:[
+                        {
+                            shaderLocation:1,
+                            format:"float32x2",
+                            offset:0
+                        },
+                        {
+                            shaderLocation:2,
+                            format:"float32x3",
+                            offset:8
+                        }
+                ]
+                }
+            ]
+        },
+        fragment:{
+            module:device.createShaderModule({
+                code:shader
+            }),
+            entryPoint:"fs_main",
+            targets:[{format}]
+        },
+        primitive:{
+            topology:"triangle-list"
+        },
+        layout: device.createPipelineLayout({
+            bindGroupLayouts:[]
+        })
+    })
+
+    
+    const commandEncoder = device.createCommandEncoder();
+    const textureView = context.getCurrentTexture().createView();
+    const renderPass = commandEncoder.beginRenderPass({ 
+        colorAttachments: [{
+            view:textureView,
+            clearValue:{r:1.0, g:1.0, b:1.0, a:1.0},
+            loadOp: 'clear',
+            storeOp:'store'
+        }]
+    })
+
+    renderPass.setPipeline(pipeline);
+    renderPass.setVertexBuffer(0, dataBuffer);
+    renderPass.draw(6,1,0,0);
+    
+    renderPass.end(); //no more instructions 
+    device.queue.submit([commandEncoder.finish()]) //submit to the gpu's queue to execute
+}
+
+export default webGPUDrawSquare;
