@@ -4,31 +4,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>WebGL2 vs WebGPU: Triangle</title>
+    <link rel="stylesheet" href="../styles.css">
+    <title>WebGL2 vs WebGPU: Square with Indexed Vertices</title>
 </head>
 <body>
-    <h1>WebGL vs WebGPU: Triangle</h1>
+  <h1><a href="../index.html">WebGL vs WebGPU:</a> Square with Indexed Vertices</h1>
      
       <div class="navbar">
-        <div class="tab webGL2Tab selected" id="webGL2Tab-triangle" onclick="openScene('webGL2')">WebGL2</div>
-        <div class="tab webGPUTab" id="webGPUTab-triangle"onclick="openScene('webGPU')">WebGPU</div>
+        <div class="tab webGL2Tab selected" id="webGL2Tab-square-with-indexed-vertices" onclick="openScene('webGL2')">WebGL2</div>
+        <div class="tab webGPUTab" id="webGPUTab-square-with-indexed-vertices"onclick="openScene('webGPU')">WebGPU</div>
       </div>
       
-      <div id="webGL2" class=" scene scene-triangle">
-        <!-- <h2 class="scene-heading">WebGL2</h2> -->
+      <div id="webGL2" class="scene scene-square-with-indexed-vertices">
         <canvas id="canvas-webGL2"></canvas>
     </div>
     
-    <div id="webGPU" class="scene scene-triangle" style="display:none">
-        <!-- <h2 class="scene-heading">WebGPU</h2> -->
+    <div id="webGPU" class="scene scene-square-with-indexed-vertices" style="display:none">
         <canvas width="600px" height="600px" id ="canvas-webGPU"></canvas>
     </div>
-    <script src="./main.bundle.js"></script>
+    <script src="../main.bundle.js"></script>
     <script>
         function openScene(sceneName) {
           let i;
-          const x = document.getElementsByClassName("scene-triangle");
+          const x = document.getElementsByClassName("scene-square-with-indexed-vertices");
           for (i = 0; i < x.length; i++) {
             x[i].style.display = "none";
           }
@@ -40,7 +38,7 @@
 
           const selected = document.getElementById(sceneName);
           selected.style.display = "block";
-          const tab = document.getElementById(sceneName+"Tab-triangle");
+          const tab = document.getElementById(sceneName+"Tab-square-with-indexed-vertices");
           tab.classList.add("selected");
         }
     </script>
