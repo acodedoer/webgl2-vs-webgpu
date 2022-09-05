@@ -1,6 +1,6 @@
 export const vertexShaderSource:string = `#version 300 es
 in vec4 a_position;
-in vec4 a_color; 
+in vec4 a_color;
 out vec4 out_color;
 void main(){
     gl_Position = a_position;

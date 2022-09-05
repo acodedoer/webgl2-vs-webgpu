@@ -2,6 +2,8 @@ import { webgl2DrawTriangle } from "./triangle/webgl2";
 import { webgpuDrawTriangle } from "./triangle/webgpu"
 import { webGL2DrawSquare } from "./square/webgl2";
 import { webGPUDrawSquare } from "./square/webgpu";
+import {webGPUDrawSquareWithIndexedVertices} from "./square-with-indexed-vertices/webgpu";
+import {webGL2DrawSquareWithIndexedVertices} from "./square-with-indexed-vertices/webgl2";
 
 const removeOtherScene = (sceneType:string) => {
     const sceneParent = document.getElementById(sceneType) as HTMLElement;
@@ -26,7 +28,9 @@ const setThisScene = (sceneType:string) => {
         sceneParent.appendChild(canvas);
     }
 }
-
+/*****************************************************************************/
+/***************                    Triangle                  ****************/
+/*****************************************************************************/
 const triangleButtoWebGPU:HTMLElement|null = document.getElementById("webGPUTab-triangle");
 triangleButtoWebGPU?.addEventListener("click",async ()=>{
     removeOtherScene("webGL2");
@@ -41,6 +45,10 @@ triangleButtoWebGL2?.addEventListener("click",async ()=>{
 })
 if(triangleButtoWebGL2!==null)webgl2DrawTriangle();
 
+
+/***************************************************************************/
+/***************                    Square                  ****************/
+/***************************************************************************/
 const squareButtoWebGPU:HTMLElement|null = document.getElementById("webGPUTab-square");
 squareButtoWebGPU?.addEventListener("click",async ()=>{
     removeOtherScene("webGL2");
@@ -53,4 +61,21 @@ squareButtoWebGL2?.addEventListener("click",async ()=>{
     setThisScene("webGL2");
     webGL2DrawSquare();
 })
+
+/***************************************************************************/
+/***************        Square with Indexed Vertices        ****************/
+/***************************************************************************/
 if(squareButtoWebGL2!==null)webGL2DrawSquare();
+const square_with_index_verticesButtoWebGPU:HTMLElement|null = document.getElementById("webGPUTab-square-with-indexed-vertices");
+square_with_index_verticesButtoWebGPU?.addEventListener("click",async ()=>{
+    removeOtherScene("webGL2");
+    setThisScene("webGPU");
+    await webGPUDrawSquareWithIndexedVertices();
+})
+const square_with_index_verticesButtoWebGL2:HTMLElement|null = document.getElementById("webGL2Tab-square-with-indexed-vertices");
+square_with_index_verticesButtoWebGL2?.addEventListener("click",async ()=>{
+    removeOtherScene("webGPU");
+    setThisScene("webGL2");
+    webGL2DrawSquareWithIndexedVertices();
+})
+if(square_with_index_verticesButtoWebGL2!==null)webGL2DrawSquareWithIndexedVertices();

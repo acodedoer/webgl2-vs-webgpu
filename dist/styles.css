@@ -1,7 +1,8 @@
 @font-face {
     font-family: UbuntuMono;
     src: url("font/UbuntuMono-Regular.ttf");
-}body{
+}
+body{
 
     width:100vw;
     height: 100vh;
@@ -14,6 +15,11 @@
     text-align: center;
     box-sizing: border-box;
     font-family: 'UbuntuMono';
+}
+
+.image-link{
+    padding: auto;
+    margin: auto;
 }
 
 .navbar{
@@ -76,4 +82,16 @@ canvas{
 
 .webGL2Tab{
     color: red;
+}
+
+li>p{
+    margin: 0;
+}
+
+li{
+    padding-bottom: 16px;
+}
+
+img{
+    max-width: 23px;
 }

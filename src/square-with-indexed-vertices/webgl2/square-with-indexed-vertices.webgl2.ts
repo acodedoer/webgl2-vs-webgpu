@@ -1,15 +1,14 @@
-import { vertexShaderSource, fragmentShaderSource } from "./shader.square.webgl"
+import { vertexShaderSource, fragmentShaderSource } from "./shader.square-with-indexed-vertices.webgl"
 import { createShader, createProgram, initialiseGL } from "../../helpers/webgl2"
 import {resizeCanvasToDisplaySize} from "../../helpers/common"
-const webGL2DrawSquare = () => {
-
+const webGL2DrawSquareWithIndexedVertices = () => {
     /*******************************************************************/
     /****************           Initialise GL           ****************/
     /*******************************************************************/
     const obj = initialiseGL();
     const gl = obj[0] as WebGL2RenderingContext;
     const canvas = obj[1] as HTMLCanvasElement;
-
+    
     /*******************************************************************/
     /**************** Create Shaders and Shader Program ****************/
     /*******************************************************************/
@@ -17,21 +16,21 @@ const webGL2DrawSquare = () => {
     const fragmentShader:WebGLShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource) as WebGLShader;
     const program:WebGLProgram = createProgram(gl,fragmentShader,vertexShader) as WebGLProgram;
 
+    
     /*******************************************************************/
     /**********Create Vertex Buffer & Store Vertices & Colors***********/
     /*******************************************************************/
     const data:number[] = [
         -0.5,-0.5, 1.0,0.0,0.0,
-        -0.5, 0.5, 0.0,1.0,0.0,
-        0.5, -0.5, 0.0,1.0,0.0,
-        -0.5, 0.5, 0.0,1.0,0.0,
-        0.5, -0.5, 0.0,1.0,0.0,
+        -0.5, 0.5, 0.0,0.0,1.0,
+        0.5, -0.5, 0.0,0.0,1.0,
         0.5,0.5, 1.0,0.0,0.0,
     ];
 
     const dataBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, dataBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW);
+
 
     /*******************************************************************/
     /**********          Setup Vertex Array Object             *********/
@@ -59,20 +58,35 @@ const webGL2DrawSquare = () => {
     
     gl.vertexAttribPointer(colorAttributeLocation,size, type, normalize, stride, offset);
     gl.enableVertexAttribArray(colorAttributeLocation);
+    
+    
+    /*******************************************************************/
+    /**********             Create Index Buffer               *********/
+    /*******************************************************************/
+    const indices:number[] = [
+        0,1,2,
+        3,1,2,
+    ];
+    const indexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(indices), gl.STATIC_DRAW);
+
     resizeCanvasToDisplaySize(canvas);
 
+    
     /*******************************************************************/
     /**********                    DRAW                        *********/
     /*******************************************************************/ 
     gl.viewport(0,0,gl.canvas.width, gl.canvas.height);
     gl.clearColor(1.0,1.0,1.0,1.0); 
     gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.useProgram(program);
+    gl.useProgram(program); 
 
-    const primitiveType = gl.TRIANGLES;
+    const primitiveType = gl.TRIANGLES; 
     const drawOffset = 0;
     const count = 6;
-    gl.drawArrays(primitiveType, drawOffset, count);
+    let indexType = gl.UNSIGNED_SHORT;
+    gl.drawElements(primitiveType, count, indexType, drawOffset);
 }
 
-export default webGL2DrawSquare;
+export default webGL2DrawSquareWithIndexedVertices;
