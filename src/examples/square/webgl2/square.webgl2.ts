@@ -1,6 +1,6 @@
 import { vertexShaderSource, fragmentShaderSource } from "./shader.square.webgl"
-import { createShader, createProgram, initialiseGL } from "../../helpers/webgl2"
-import {resizeCanvasToDisplaySize} from "../../helpers/common"
+import { createShader, createProgram, initialiseGL } from "../../../helpers/webgl2"
+import {resizeCanvasToDisplaySize} from "../../../helpers/common"
 const webGL2DrawSquare = () => {
 
     /*******************************************************************/

@@ -1,6 +1,6 @@
-import shader from './shader.square-with-indexed-vertices.webgpu.wgsl'
-import { initialiseGPU, createGPUBuffer } from '../../helpers/webgpu';
-const webGPUDrawSquareWithIndexedVertices = async () => {
+import shader from './shader.square.webgpu.wgsl'
+import { initialiseGPU, createGPUBuffer } from '../../../helpers/webgpu';
+const webGPUDrawSquare = async () => {
     /*******************************************************************/
     /****************           Initialise GPU          ****************/
     /*******************************************************************/
@@ -14,24 +14,14 @@ const webGPUDrawSquareWithIndexedVertices = async () => {
     /*******************************************************************/
     const data:Float32Array = new Float32Array([
         -0.5,-0.5, 0.0,0.0,1.0,
-        -0.5, 0.5, 1.0,0.0,0.0,
-        0.5, -0.5, 1.0,0.0,0.0,
-        0.5,0.5, 0.0,0.0,1.0
+        -0.5, 0.5, 0.0,1.0,0.0,
+        0.5, -0.5, 0.0,1.0,0.0,
+        -0.5, 0.5, 0.0,1.0,0.0,
+        0.5, -0.5, 0.0,1.0,0.0,
+        0.5,0.5, 0.0,0.0,1.0,
     ]);
+
     const dataBuffer = createGPUBuffer(device, data, GPUBufferUsage.VERTEX);
-
-    /*******************************************************************/
-    /**********               Create Index Buffer              *********/
-    /*******************************************************************/
-    const indexData = new Uint32Array([0,1,2,3,2,1])
-    const indexBuffer = device.createBuffer({
-        size: indexData.byteLength,
-        usage:GPUBufferUsage.INDEX,
-        mappedAtCreation: true
-    });
-    new Uint32Array(indexBuffer.getMappedRange()).set(indexData);
-    indexBuffer.unmap();
-
 
     /*******************************************************************/
     /*****Setup Render Pipeline for Vertex & Fragment Shader Stages*****/
@@ -52,7 +42,7 @@ const webGPUDrawSquareWithIndexedVertices = async () => {
                             offset:0            
                         },
                         {
-                            shaderLocation:2,  
+                            shaderLocation:2,   
                             format:"float32x3",
                             offset:8            
                         }
@@ -75,7 +65,6 @@ const webGPUDrawSquareWithIndexedVertices = async () => {
         })
     })
 
-
     /*******************************************************************/
     /**********             Create Command Encoder             *********/
     /*******************************************************************/
@@ -95,11 +84,10 @@ const webGPUDrawSquareWithIndexedVertices = async () => {
     /*******************************************************************/
     renderPass.setPipeline(pipeline);
     renderPass.setVertexBuffer(0, dataBuffer);          
-    renderPass.setIndexBuffer(indexBuffer,"uint32");    
-    renderPass.drawIndexed(6,1,0,0);                           
+    renderPass.draw(6,1,0,0);                           
     
     renderPass.end(); 
     device.queue.submit([commandEncoder.finish()]) 
 }
 
-export default webGPUDrawSquareWithIndexedVertices;
+export default webGPUDrawSquare;

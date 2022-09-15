@@ -9,9 +9,10 @@ const checkGPU = () => {
 const initialiseGPU = async (id="canvas-webGPU") => {
     const status = checkGPU();
     if(status!==''){
-        window.alert('No WebGPU Support');
+        const canvasParent = document.getElementById("webGPU");
+        canvasParent? canvasParent.innerHTML="<h2>Your browser does not support WebGPU!<h2>":null;
     }
-
+    
     const canvas = document.getElementById(id) as HTMLCanvasElement;
     const adapter = await navigator.gpu?.requestAdapter(); //the gpu
     const device = await adapter?.requestDevice() as GPUDevice; //provides a connection to the adapter(the gpu)

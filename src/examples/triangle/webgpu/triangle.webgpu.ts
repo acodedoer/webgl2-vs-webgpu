@@ -5,9 +5,10 @@ export const webgpuDrawTriangle = async () => {
     /****************           Initialise GPU          ****************/
     /*******************************************************************/
     if(!navigator.gpu){
-        window.alert('No WebGPU Support');
-    }
+        const canvasParent = document.getElementById("webGPU");
+        canvasParent? canvasParent.innerHTML="<h2>Your browser does not support WebGPU!<h2>":null;
 
+    }
     const canvas = document.getElementById("canvas-webGPU") as HTMLCanvasElement;
     const adapter = await navigator.gpu?.requestAdapter(); 
     const device = await adapter?.requestDevice() as GPUDevice; 
