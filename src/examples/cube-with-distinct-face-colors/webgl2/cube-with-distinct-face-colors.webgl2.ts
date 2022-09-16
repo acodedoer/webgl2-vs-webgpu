@@ -1,8 +1,8 @@
-import { vertexShaderSource, fragmentShaderSource } from "./shader.cube-with-distinct-vertex-colors.webgl"
+import { vertexShaderSource, fragmentShaderSource } from "./shader.cube-with-distinct-face-colors.webgl"
 import { createShader, createProgram, initialiseGL, createGL2Buffer, setGL2Attribute } from "../../../helpers/webgl2"
-import {createTransforms, createViewProjectionPerspective, cubeIndexData, cubeUniqueVertexData, resizeCanvasToDisplaySize} from "../../../helpers/common"
+import {createTransforms, createViewProjectionPerspective, cubeIndexData, cubeCompleteVertexData, resizeCanvasToDisplaySize, cubeFaceColorData} from "../../../helpers/common"
 import { mat4 } from "gl-matrix";
-const webGL2DrawCubeWithDistinctVertexColors = () => {
+const webGL2DrawCubeWithDistinctFaceColors = () => {
     /*******************************************************************/
     /****************           Initialise GL           ****************/
     /*******************************************************************/
@@ -19,26 +19,19 @@ const webGL2DrawCubeWithDistinctVertexColors = () => {
     gl.useProgram(program); 
     
     /*******************************************************************/
-    /**********Create Vertex Buffer & Store Vertices & Colors***********/
-    /*******************************************************************/
-    const cubeVertices:number[] = cubeUniqueVertexData;
-    createGL2Buffer(gl,cubeVertices,gl.ARRAY_BUFFER,gl.STATIC_DRAW);
-
-
-    /*******************************************************************/
-    /**********          Setup Vertex Array Object             *********/
+    /**********       Create Buffers & Set Attributes        ***********/
     /*******************************************************************/
     const vao = gl.createVertexArray();
     gl.bindVertexArray(vao);
-    setGL2Attribute(gl,program,"a_position",3,gl.FLOAT,false,24,0);
-    setGL2Attribute(gl,program,"a_color",3,gl.FLOAT,false,24,12);
-        
-    
-    /*******************************************************************/
-    /**********             Create Index Buffer               *********/
-    /*******************************************************************/
-    const cubeIndices = cubeIndexData;
-    createGL2Buffer(gl, cubeIndices, gl.ELEMENT_ARRAY_BUFFER, gl.STATIC_DRAW);
+    const cubeVertices:number[] = cubeCompleteVertexData;
+
+    createGL2Buffer(gl,cubeVertices,gl.ARRAY_BUFFER,gl.STATIC_DRAW);
+    setGL2Attribute(gl,program,"a_position",3,gl.FLOAT,false,12,0);
+
+    const cubeColors:number[] = cubeFaceColorData;
+    createGL2Buffer(gl,cubeColors, gl.ARRAY_BUFFER, gl.STATIC_DRAW);
+    setGL2Attribute(gl,program,"a_color",3,gl.FLOAT,false,12,0);
+
     resizeCanvasToDisplaySize(canvas);
 
     /*******************************************************************/
@@ -63,12 +56,10 @@ const webGL2DrawCubeWithDistinctVertexColors = () => {
     gl.enable(gl.DEPTH_TEST);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     
-
     const primitiveType = gl.TRIANGLES; 
     const drawOffset = 0;
-    const count = cubeIndices.length;
-    let indexType = gl.UNSIGNED_SHORT;
-    gl.drawElements(primitiveType, count, indexType, drawOffset);
+    gl.drawArrays(primitiveType, drawOffset, cubeVertices.length);
+
 }
 
-export default webGL2DrawCubeWithDistinctVertexColors;
+export default webGL2DrawCubeWithDistinctFaceColors;

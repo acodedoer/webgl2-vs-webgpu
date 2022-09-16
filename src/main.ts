@@ -4,9 +4,8 @@ import { webGL2DrawSquare } from "./examples/square/webgl2";
 import { webGPUDrawSquare } from "./examples/square/webgpu";
 import {webGPUDrawSquareWithIndexedVertices} from "./examples/square-with-indexed-vertices/webgpu";
 import {webGL2DrawSquareWithIndexedVertices} from "./examples/square-with-indexed-vertices/webgl2";
-import {webGL2DrawCubeWithDistinctVertexColors} from "./examples/cube-with-distinct-vertex-colors/webgl2";
-import {webGPUDrawCubeWithDistinctVertexColors} from "./examples/cube-with-distinct-vertex-colors/webgpu";
-
+import {webGPUDrawCubeWithDistinctVertexColors, webGL2DrawCubeWithDistinctVertexColors} from "./examples/cube-with-distinct-vertex-colors";
+import { webGPUDrawCubeWithDistinctFaceColors, webGL2DrawCubeWithDistinctFaceColors } from "./examples/cube-with-distinct-face-colors";
 const removeOtherScene = (sceneType:string) => {
     const sceneParent = document.getElementById(sceneType) as HTMLElement;
     sceneParent?.childNodes.forEach((node)=>{
@@ -83,7 +82,25 @@ square_with_index_verticesButtoWebGL2?.addEventListener("click",async ()=>{
 if(square_with_index_verticesButtoWebGL2!==null)webGL2DrawSquareWithIndexedVertices();
 
 /***************************************************************************/
-/***************        Cube with Orthographic Camera        ****************/
+/***************      Cube with Distinct Face COlors      ****************/
+/***************************************************************************/
+if(squareButtoWebGL2!==null)webGL2DrawSquare();
+const cube_with_distinct_face_colorsButtoWebGPU:HTMLElement|null = document.getElementById("webGPUTab-cube-with-distinct-face-colors");
+cube_with_distinct_face_colorsButtoWebGPU?.addEventListener("click",async ()=>{
+    removeOtherScene("webGL2");
+    setThisScene("webGPU");
+    await webGPUDrawCubeWithDistinctFaceColors();
+})
+const cube_with_distinct_face_colorsButtoWebGL2:HTMLElement|null = document.getElementById("webGL2Tab-cube-with-distinct-face-colors");
+cube_with_distinct_face_colorsButtoWebGL2?.addEventListener("click",async ()=>{
+    removeOtherScene("webGPU");
+    setThisScene("webGL2");
+    webGL2DrawCubeWithDistinctFaceColors();
+})
+if(cube_with_distinct_face_colorsButtoWebGL2!==null)webGL2DrawCubeWithDistinctFaceColors();
+
+/***************************************************************************/
+/***************      Cube with Distinct Vertex COlors      ****************/
 /***************************************************************************/
 if(squareButtoWebGL2!==null)webGL2DrawSquare();
 const cube_with_distinct_vertex_colorsButtoWebGPU:HTMLElement|null = document.getElementById("webGPUTab-cube-with-distinct-vertex-colors");

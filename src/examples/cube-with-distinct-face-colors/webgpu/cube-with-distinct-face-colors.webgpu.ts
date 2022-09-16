@@ -1,8 +1,8 @@
-import shader from './shader.cube-with-distinct-vertex-colors.wgsl'
+import shader from './shader.cube-with-distinct-face-colors.wgsl'
 import { initialiseGPU, createGPUBuffer } from '../../../helpers/webgpu';
-import { createTransforms, createViewProjectionPerspective, cubeIndexData, cubeUniqueVertexData } from '../../../helpers/common';
+import { createTransforms, createViewProjectionPerspective, cubeCompleteVertexData, cubeFaceColorData, cubeIndexData, cubeUniqueVertexData } from '../../../helpers/common';
 import { mat4 } from 'gl-matrix';
-const webGPUDrawCubeWithDistinctVertexColors = async () => {
+const webGPUDrawCubeWithDistinctFaceColors = async () => {
     /*******************************************************************/
     /****************           Initialise GPU          ****************/
     /*******************************************************************/
@@ -12,15 +12,16 @@ const webGPUDrawCubeWithDistinctVertexColors = async () => {
 
 
     /*******************************************************************/
-    /******Create Vertex & Index Buffers to Store Vertices & Colors*****/
+    /******Create Vertex & Color Buffers to Store Vertices & Colors*****/
     /*******************************************************************/
-    const cubeData = new Float32Array(cubeUniqueVertexData);
+    const cubeData = new Float32Array(cubeCompleteVertexData);
+    const colorData = new Float32Array(cubeFaceColorData);
     const vertexBuffer = createGPUBuffer(device, cubeData, GPUBufferUsage.VERTEX);
-    const indexData = new Uint32Array(cubeIndexData)
-    const numberOfVertices = indexData.length;
-    const indexBuffer = createGPUBuffer(device, indexData, GPUBufferUsage.INDEX);
+    const colorBuffer = createGPUBuffer(device, colorData, GPUBufferUsage.VERTEX);
+    const numberOfVertices = cubeData.length;
 
 
+    
     /*******************************************************************/
     /****Create Uniform Bind Group Layout to Pass Uniform to Shader*****/
     /*******************************************************************/
@@ -36,7 +37,6 @@ const webGPUDrawCubeWithDistinctVertexColors = async () => {
         ]
     });
 
-
     /*******************************************************************/
     /*****Setup Render Pipeline for Vertex & Fragment Shader Stages*****/
     /*******************************************************************/
@@ -48,19 +48,24 @@ const webGPUDrawCubeWithDistinctVertexColors = async () => {
             entryPoint: "vs_main",
             buffers:[
                 {
-                    arrayStride:24,            
+                    arrayStride:12,            
                     attributes:[
                         {
                             shaderLocation:0,   
                             format:"float32x3",
                             offset:0            
-                        },
-                        {
-                            shaderLocation:1,  
-                            format:"float32x3",
-                            offset:12            
                         }
-                ]
+                    ],
+                },
+                {
+                    arrayStride:12,            
+                    attributes:[
+                        {
+                            shaderLocation:1,   
+                            format:"float32x3",
+                            offset:0            
+                        }
+                    ],
                 }
             ]
         },
@@ -160,11 +165,11 @@ const webGPUDrawCubeWithDistinctVertexColors = async () => {
     /*******************************************************************/
     renderPass.setPipeline(pipeline);
     renderPass.setVertexBuffer(0, vertexBuffer);
-    renderPass.setIndexBuffer(indexBuffer,"uint32");
+    renderPass.setVertexBuffer(1, colorBuffer);
     renderPass.setBindGroup(0, uniformBindGroup);
-    renderPass.drawIndexed(numberOfVertices);                          
+    renderPass.draw(numberOfVertices/3);                          
     renderPass.end(); 
     device.queue.submit([commandEncoder.finish()]) 
 }
 
-export default webGPUDrawCubeWithDistinctVertexColors;
+export default webGPUDrawCubeWithDistinctFaceColors;
