@@ -3,7 +3,7 @@ import { initialiseGPU, createGPUBuffer } from '../../../helpers/webgpu';
 import { createTransforms, createViewProjectionPerspective, cubeCompleteVertexData, cubeFaceColorData, cubeIndexData, cubeTextureCoord, cubeUniqueVertexData } from '../../../helpers/common';
 import { mat4 } from 'gl-matrix';
 import ts from 'typescript';
-const webGPUDrawCubeTexture = async () => {
+const webGPUDrawCubeWithTexture = async () => {
     /*******************************************************************/
     /****************           Initialise GPU          ****************/
     /*******************************************************************/
@@ -228,4 +228,4 @@ const webGPUDrawCubeTexture = async () => {
     device.queue.submit([commandEncoder.finish()]) 
 }
 
-export default webGPUDrawCubeTexture;
+export default webGPUDrawCubeWithTexture;

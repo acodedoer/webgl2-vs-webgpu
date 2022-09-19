@@ -6,7 +6,7 @@ export const createViewProjectionPerspective = (respectRatio = 1.0, cameraPositi
     const viewMatrix = mat4.create();
     const projectionMatrix = mat4.create();       
     const viewProjectionMatrix = mat4.create();
-    mat4.perspective(projectionMatrix, 2*Math.PI/5, respectRatio, 0.1, 100.0);
+    mat4.perspective(projectionMatrix, 2*Math.PI/5, respectRatio, 0.1, 1000.0);
 
     mat4.lookAt(viewMatrix, cameraPosition, lookDirection, upDirection);
     mat4.multiply(viewProjectionMatrix, projectionMatrix, viewMatrix);

@@ -7,6 +7,7 @@ import {webGL2DrawSquareWithIndexedVertices} from "./examples/square-with-indexe
 import {webGPUDrawCubeWithDistinctVertexColors, webGL2DrawCubeWithDistinctVertexColors} from "./examples/cube-with-distinct-vertex-colors";
 import { webGPUDrawCubeWithDistinctFaceColors, webGL2DrawCubeWithDistinctFaceColors } from "./examples/cube-with-distinct-face-colors";
 import { webGPUDrawCubeWithTexture, webGL2DrawCubeWithTexture } from "./examples/cube-with-texture";
+import { webGPUDrawInteractiveCube, webGL2DrawInteractiveCube } from "./examples/interactive-cube";
 const removeOtherScene = (sceneType:string) => {
     const sceneParent = document.getElementById(sceneType) as HTMLElement;
     sceneParent?.childNodes.forEach((node)=>{
@@ -136,3 +137,21 @@ cube_with_textureButtoWebGL2?.addEventListener("click",async ()=>{
     webGL2DrawCubeWithTexture();
 })
 if(cube_with_textureButtoWebGL2!==null)webGL2DrawCubeWithTexture();
+
+/***************************************************************************/
+/***************                Cube Animated               ****************/
+/***************************************************************************/
+if(squareButtoWebGL2!==null)webGL2DrawSquare();
+const interactiveCubeButtoWebGPU:HTMLElement|null = document.getElementById("webGPUTab-interactive-cube");
+interactiveCubeButtoWebGPU?.addEventListener("click",async ()=>{
+    removeOtherScene("webGL2");
+    setThisScene("webGPU");
+    await webGPUDrawInteractiveCube();
+})
+const interactiveCubeButtoWebGL2:HTMLElement|null = document.getElementById("webGL2Tab-interactive-cube");
+interactiveCubeButtoWebGL2?.addEventListener("click",async ()=>{
+    removeOtherScene("webGPU");
+    setThisScene("webGL2");
+    webGL2DrawInteractiveCube();
+})
+if(interactiveCubeButtoWebGL2!==null)webGL2DrawInteractiveCube();

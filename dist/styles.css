@@ -95,3 +95,35 @@ li{
 img{
     max-width: 23px;
 }
+
+.no-space{
+    padding: 0;
+    margin: 0;
+}
+
+.flex-spaced-between{
+    display: flex;
+    justify-content: space-between;
+}
+
+#controls-container, #fps-container{
+    background-color: white;
+    padding: 8px 8px;
+    text-align: left;
+    position:absolute;
+    cursor: pointer;
+}
+
+#fps-container{
+   left:16px;
+   width: 30px;
+   text-align: center;
+}
+
+#fps-container p{
+    margin: 2px;
+}
+
+#controls-container{
+   right:16px;
+}

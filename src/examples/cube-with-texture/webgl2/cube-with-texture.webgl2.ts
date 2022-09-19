@@ -34,6 +34,7 @@ const webGL2DrawCubeWithTexture = () => {
 
     resizeCanvasToDisplaySize(canvas);
 
+    
     /*******************************************************************/
     /**********                  Create Texture                *********/
     /*******************************************************************/
@@ -75,6 +76,7 @@ const webGL2DrawCubeWithTexture = () => {
     const mvpMatrixLocation = gl.getUniformLocation(program,"u_matrix");
     gl.uniformMatrix4fv(mvpMatrixLocation,false, mvpMatrix);
     
+
     /*******************************************************************/
     /**********                    DRAW                        *********/
     /*******************************************************************/ 

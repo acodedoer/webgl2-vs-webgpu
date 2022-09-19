@@ -82,10 +82,10 @@ export const cubeCompleteVertexData = [
 
 export const cubeTextureCoord = [
     // front
-     0, 1,  
-     1, 1,  
-     1,  0, 
-     1,  0,
+    0, 1,  
+    1, 1,  
+    1,  0, 
+    1,  0,
     0,  0,
     0, 1,
 
@@ -94,24 +94,24 @@ export const cubeTextureCoord = [
     1, 1,  
     1,  0, 
     1,  0,
-   0,  0,
-   0, 1,
+    0,  0,
+    0, 1,
 
     // back
-    0, 1,  
     1, 1,  
-    1,  0, 
-    1,  0,
-   0,  0,
-   0, 1,
+    1, 0,  
+    0,  0, 
+    0,  0,
+    0,  1,
+    1, 1,
 
     // left
-    0, 1,  
     1, 1,  
-    1,  0, 
-    1,  0,
-   0,  0,
-   0, 1,
+    1, 0,  
+    0,  0, 
+    0,  0,
+    0,  1,
+    1, 1,
 
     // top
     0, 1,  
@@ -122,12 +122,12 @@ export const cubeTextureCoord = [
    0, 1,
 
     // bottom
-    0, 1,  
     1, 1,  
-    1,  0, 
-    1,  0,
-   0,  0,
-   0, 1,
+    1, 0,  
+    0,  0, 
+    0,  0,
+    0,  1,
+    1, 1,
 ];
 
 export const cubeFaceColorData = [

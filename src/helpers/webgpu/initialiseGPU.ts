@@ -8,9 +8,15 @@ const checkGPU = () => {
 
 const initialiseGPU = async (id="canvas-webGPU") => {
     const status = checkGPU();
+    let fpsContainer:HTMLElement = document.createElement('div');
+    let controlsContainer:HTMLElement = document.createElement('div');
+    fpsContainer = document.getElementById("fps-container") as HTMLElement;
+    controlsContainer = document.getElementById("controls-container") as HTMLElement;
     if(status!==''){
         const canvasParent = document.getElementById("webGPU");
         canvasParent? canvasParent.innerHTML="<h2>Your browser does not support WebGPU!<h2>":null;
+        fpsContainer.style.display="none";
+        controlsContainer.style.display="none"
     }
     
     const canvas = document.getElementById(id) as HTMLCanvasElement;
