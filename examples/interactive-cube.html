@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles.css">
+    <title>WebGL2 vs WebGPU: Interactive Cube</title>
+</head>
+<body>
+  <h1><a href="../index.html">WebGL vs WebGPU:</a> Interactive Cube</h1>
+     
+  <div class="navbar">
+    <div class="tab webGL2Tab selected" id="webGL2Tab-interactive-cube" onclick="openScene('webGL2')">WebGL2</div>
+    <div class="tab webGPUTab" id="webGPUTab-interactive-cube"onclick="openScene('webGPU')">WebGPU</div>
+  </div>
+      <div >
+        <div id="controls-container">
+          <div id="controls-control" data-open="true" class="flex-spaced-between">
+            <p class="no-space">Controls</p>
+            <p class="no-space" id="controls-icon">&#9650;</p>
+          </div>
+          <table  id="controls-body" style="background-color: #e5e8ec; width: 100%;">
+            <tr>
+              <td><label for="translate-x">Translate-x</label></td>
+              <td><input type="range" id="translate-x" name="translate-x"
+                     min="-10" max="10"></td>
+            </tr>  
+            <tr>
+              <td><label for="translate-y">Translate-y</label></td>
+              <td><input type="range" id="translate-y" name="translate-y"
+                     min="-10" max="10"></td>
+              </tr>  
+            <tr>
+              <td><label for="translate-z">Translate-z</label></td>
+              <td><input type="range" id="translate-z" name="translate-z"
+                     min="-10" max="10"></td>
+              </tr>  
+            <tr>
+              <td><label for="scale-x">Scale-x</label></td>
+              <td><input type="range" id="scale-x" name="scale-x"
+                     min="1" value="1" max="10"></td>
+              </tr>  
+            <tr>
+              <td><label for="scale-y">Scale-y</label></td>
+              <td><input type="range" id="scale-y" name="scale-y"
+                     min="1" value="1" max="10"></td>
+              </tr>  
+            <tr>
+              <td><label for="scale-z">Scale-z</label></td>
+              <td><input type="range" id="scale-z" name="scale-z"
+                     min="1" value="1" max="10"></td>
+              </tr>  
+            <tr>
+              <td><label for="rotate-x">Rotate-x</label></td>
+              <td><input type="range" id="rotate-x" name="rotate-x"
+                     min="0"  value="0" max="360"></td>
+              </tr>  
+            <tr>
+              <td><label for="rotate-y">Rotate-y</label></td>
+              <td><input type="range" id="rotate-y" name="rotate-y"
+                     min="0" value="0" max="360"></td>
+              </tr>  
+            <tr>
+              <td><label for="rotate-z">Rotate-z</label></td>
+              <td><input type="range" id="rotate-z" name="rotate-z"
+                     min="0" value="0" max="360"></td>
+              </tr>
+            <tr>
+              <td><label for="material">Material</label></td>
+              <td><select name="material" id="material">
+                <option value="texture">Texture</option>
+                <option value="distinct-vertex-colors">Distinct Vertex Colors</option>
+                <option value="distinct-face-colors">Distinct Face Colors</option>
+              </select></td>
+              </tr>  
+          </table>
+        </div>
+
+        <div id="fps-container">
+          <p>FPS</p>
+          <p id="fps"></p>
+        </div>
+
+        <div id="webGL2" class="scene scene-interactive-cube">
+          <canvas id="canvas-webGL2"></canvas>
+        </div>
+      
+      <div id="webGPU" class="scene scene-interactive-cube" style="display:none">
+          <canvas width="600px" height="600px" id ="canvas-webGPU"></canvas>
+      </div>
+    </div>
+    <script src="../main.bundle.js"></script>
+    <script>
+        const controller = document.getElementById("controls-control");
+        controller.addEventListener("click", (e) => {
+          const icon = document.getElementById("controls-icon");
+          const controlsBody = document.getElementById("controls-body");
+          if(controller.dataset.open=="true"){
+            controller.setAttribute("data-open","false");
+            icon.innerHTML="&#9660;"
+            controlsBody.style.display="none"
+          }
+          else{
+            controller.setAttribute("data-open","true");
+            icon.innerHTML="&#9650;"
+            controlsBody.style.display="block"
+          }
+        })
+        function openScene(sceneName) {
+          let i;
+          const x = document.getElementsByClassName("scene-interactive-cube");
+          for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+          }
+
+          const y = document.getElementsByClassName("tab");
+          for (i = 0; i < y.length; i++) {
+            y[i].classList.remove("selected");
+          }
+
+          const selected = document.getElementById(sceneName);
+          selected.style.display = "block";
+          const tab = document.getElementById(sceneName+"Tab-interactive-cube");
+          tab.classList.add("selected");
+        }
+    </script>
+</body>
+</html>
