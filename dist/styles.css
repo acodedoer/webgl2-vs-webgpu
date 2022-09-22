@@ -34,7 +34,6 @@ body{
 
 .scene{
     flex-grow: 1;
-    padding: 8px 16px;
     background-color: #e5e8ec;
 }
 .scene-heading{
@@ -126,4 +125,5 @@ img{
 
 #controls-container{
    right:16px;
+   display: none;
 }

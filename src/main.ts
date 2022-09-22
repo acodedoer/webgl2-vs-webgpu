@@ -8,6 +8,18 @@ import {webGPUDrawCubeWithDistinctVertexColors, webGL2DrawCubeWithDistinctVertex
 import { webGPUDrawCubeWithDistinctFaceColors, webGL2DrawCubeWithDistinctFaceColors } from "./examples/cube-with-distinct-face-colors";
 import { webGPUDrawCubeWithTexture, webGL2DrawCubeWithTexture } from "./examples/cube-with-texture";
 import { webGPUDrawInteractiveCube, webGL2DrawInteractiveCube } from "./examples/interactive-cube";
+import { webGPUDrawMultipleCubes, webGL2DrawMultipleCubes } from "./examples/multiple-cubes";
+
+const examplesObject = [
+    {webgl2Function:webgl2DrawTriangle, webgpuFunction:webgpuDrawTriangle, idPrefix:"triangle"},
+    {webgl2Function:webGL2DrawSquare, webgpuFunction:webGPUDrawSquare, idPrefix:"square"},
+    {webgl2Function:webGL2DrawSquareWithIndexedVertices, webgpuFunction:webGPUDrawSquareWithIndexedVertices, idPrefix:"square-with-indexed-vertices"},
+    {webgl2Function:webGPUDrawCubeWithDistinctVertexColors, webgpuFunction:webGPUDrawCubeWithDistinctVertexColors, idPrefix:"cube-with-distinct-vertex-colors"},
+    {webgl2Function:webGL2DrawCubeWithDistinctFaceColors, webgpuFunction:webGPUDrawCubeWithDistinctFaceColors, idPrefix:"cube-with-distinct-face-colors"},
+    {webgl2Function:webGL2DrawCubeWithTexture, webgpuFunction:webGPUDrawCubeWithTexture, idPrefix:"cube-with-texture"},
+    {webgl2Function:webGL2DrawInteractiveCube, webgpuFunction:webGPUDrawInteractiveCube, idPrefix:"interactive-cube"},
+    {webgl2Function:webGL2DrawMultipleCubes, webgpuFunction:webGPUDrawMultipleCubes, idPrefix:"multiple-cubes"},
+]
 const removeOtherScene = (sceneType:string) => {
     const sceneParent = document.getElementById(sceneType) as HTMLElement;
     sceneParent?.childNodes.forEach((node)=>{
@@ -31,127 +43,19 @@ const setThisScene = (sceneType:string) => {
         sceneParent.appendChild(canvas);
     }
 }
-/*****************************************************************************/
-/***************                    Triangle                  ****************/
-/*****************************************************************************/
-const triangleButtoWebGPU:HTMLElement|null = document.getElementById("webGPUTab-triangle");
-triangleButtoWebGPU?.addEventListener("click",async ()=>{
-    removeOtherScene("webGL2");
-    setThisScene("webGPU");
-    await webgpuDrawTriangle();
-})
-const triangleButtoWebGL2:HTMLElement|null = document.getElementById("webGL2Tab-triangle");
-triangleButtoWebGL2?.addEventListener("click",async ()=>{
-    removeOtherScene("webGPU");
-    setThisScene("webGL2");
-    webgl2DrawTriangle();
-})
-if(triangleButtoWebGL2!==null)webgl2DrawTriangle();
 
-
-/***************************************************************************/
-/***************                    Square                  ****************/
-/***************************************************************************/
-const squareButtoWebGPU:HTMLElement|null = document.getElementById("webGPUTab-square");
-squareButtoWebGPU?.addEventListener("click",async ()=>{
-    removeOtherScene("webGL2");
-    setThisScene("webGPU");
-    await webGPUDrawSquare();
+examplesObject.forEach((example)=> {
+    const buttonWebGPU:HTMLElement|null = document.getElementById("webGPUTab-"+example.idPrefix);
+    buttonWebGPU?.addEventListener("click",async ()=>{
+        removeOtherScene("webGL2");
+        setThisScene("webGPU");
+        await example.webgpuFunction();
+    })
+    const buttoWebGL2:HTMLElement|null = document.getElementById("webGL2Tab-"+example.idPrefix);
+    buttoWebGL2?.addEventListener("click",async ()=>{
+        removeOtherScene("webGPU");
+        setThisScene("webGL2");
+        example.webgl2Function();
+    })
+    if(buttoWebGL2!==null)example.webgl2Function();
 })
-const squareButtoWebGL2:HTMLElement|null = document.getElementById("webGL2Tab-square");
-squareButtoWebGL2?.addEventListener("click",async ()=>{
-    removeOtherScene("webGPU");
-    setThisScene("webGL2");
-    webGL2DrawSquare();
-})
-
-/***************************************************************************/
-/***************        Square with Indexed Vertices        ****************/
-/***************************************************************************/
-if(squareButtoWebGL2!==null)webGL2DrawSquare();
-const square_with_index_verticesButtoWebGPU:HTMLElement|null = document.getElementById("webGPUTab-square-with-indexed-vertices");
-square_with_index_verticesButtoWebGPU?.addEventListener("click",async ()=>{
-    removeOtherScene("webGL2");
-    setThisScene("webGPU");
-    await webGPUDrawSquareWithIndexedVertices();
-})
-const square_with_index_verticesButtoWebGL2:HTMLElement|null = document.getElementById("webGL2Tab-square-with-indexed-vertices");
-square_with_index_verticesButtoWebGL2?.addEventListener("click",async ()=>{
-    removeOtherScene("webGPU");
-    setThisScene("webGL2");
-    webGL2DrawSquareWithIndexedVertices();
-})
-if(square_with_index_verticesButtoWebGL2!==null)webGL2DrawSquareWithIndexedVertices();
-
-/***************************************************************************/
-/***************      Cube with Distinct Face COlors      ****************/
-/***************************************************************************/
-if(squareButtoWebGL2!==null)webGL2DrawSquare();
-const cube_with_distinct_face_colorsButtoWebGPU:HTMLElement|null = document.getElementById("webGPUTab-cube-with-distinct-face-colors");
-cube_with_distinct_face_colorsButtoWebGPU?.addEventListener("click",async ()=>{
-    removeOtherScene("webGL2");
-    setThisScene("webGPU");
-    await webGPUDrawCubeWithDistinctFaceColors();
-})
-const cube_with_distinct_face_colorsButtoWebGL2:HTMLElement|null = document.getElementById("webGL2Tab-cube-with-distinct-face-colors");
-cube_with_distinct_face_colorsButtoWebGL2?.addEventListener("click",async ()=>{
-    removeOtherScene("webGPU");
-    setThisScene("webGL2");
-    webGL2DrawCubeWithDistinctFaceColors();
-})
-if(cube_with_distinct_face_colorsButtoWebGL2!==null)webGL2DrawCubeWithDistinctFaceColors();
-
-/***************************************************************************/
-/***************      Cube with Distinct Vertex COlors      ****************/
-/***************************************************************************/
-if(squareButtoWebGL2!==null)webGL2DrawSquare();
-const cube_with_distinct_vertex_colorsButtoWebGPU:HTMLElement|null = document.getElementById("webGPUTab-cube-with-distinct-vertex-colors");
-cube_with_distinct_vertex_colorsButtoWebGPU?.addEventListener("click",async ()=>{
-    removeOtherScene("webGL2");
-    setThisScene("webGPU");
-    await webGPUDrawCubeWithDistinctVertexColors();
-})
-const cube_with_distinct_vertex_colorsButtoWebGL2:HTMLElement|null = document.getElementById("webGL2Tab-cube-with-distinct-vertex-colors");
-cube_with_distinct_vertex_colorsButtoWebGL2?.addEventListener("click",async ()=>{
-    removeOtherScene("webGPU");
-    setThisScene("webGL2");
-    webGL2DrawCubeWithDistinctVertexColors();
-})
-if(cube_with_distinct_vertex_colorsButtoWebGL2!==null)webGL2DrawCubeWithDistinctVertexColors();
-
-
-/***************************************************************************/
-/***************             Cube with Texture             ****************/
-/***************************************************************************/
-if(squareButtoWebGL2!==null)webGL2DrawSquare();
-const cube_with_textureButtoWebGPU:HTMLElement|null = document.getElementById("webGPUTab-cube-with-texture");
-cube_with_textureButtoWebGPU?.addEventListener("click",async ()=>{
-    removeOtherScene("webGL2");
-    setThisScene("webGPU");
-    await webGPUDrawCubeWithTexture();
-})
-const cube_with_textureButtoWebGL2:HTMLElement|null = document.getElementById("webGL2Tab-cube-with-texture");
-cube_with_textureButtoWebGL2?.addEventListener("click",async ()=>{
-    removeOtherScene("webGPU");
-    setThisScene("webGL2");
-    webGL2DrawCubeWithTexture();
-})
-if(cube_with_textureButtoWebGL2!==null)webGL2DrawCubeWithTexture();
-
-/***************************************************************************/
-/***************                Cube Animated               ****************/
-/***************************************************************************/
-if(squareButtoWebGL2!==null)webGL2DrawSquare();
-const interactiveCubeButtoWebGPU:HTMLElement|null = document.getElementById("webGPUTab-interactive-cube");
-interactiveCubeButtoWebGPU?.addEventListener("click",async ()=>{
-    removeOtherScene("webGL2");
-    setThisScene("webGPU");
-    await webGPUDrawInteractiveCube();
-})
-const interactiveCubeButtoWebGL2:HTMLElement|null = document.getElementById("webGL2Tab-interactive-cube");
-interactiveCubeButtoWebGL2?.addEventListener("click",async ()=>{
-    removeOtherScene("webGPU");
-    setThisScene("webGL2");
-    webGL2DrawInteractiveCube();
-})
-if(interactiveCubeButtoWebGL2!==null)webGL2DrawInteractiveCube();

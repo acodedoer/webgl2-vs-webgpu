@@ -127,6 +127,9 @@ const webGL2DrawCubeAnimated = () => {
     let rX = 0;
     let rY = 0;
     let rZ = 0;
+
+    const controls = document.getElementById("controls-container") as HTMLElement;
+    controls.style.display="block";
     document.getElementById("translate-x")?.addEventListener("input", (e:any)=>{
       tX = e?.target?.value;
       // drawScene();
